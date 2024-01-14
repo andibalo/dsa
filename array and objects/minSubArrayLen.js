@@ -15,39 +15,39 @@
 
 // Space Complexity - O(1)
 
-function minSubArrayLen(arr, num) {
-    
-    let minArrLen = 0
-    let tempArrLen = 0
-    let left = 0
-    let tempSum = 0
-  
-    for (let right = 0; right < arr.length; right++) {
 
-        if (tempArrLen == 0) {
-            tempSum = arr[left]
-        } else {
-            tempSum += arr[right]
+
+function minSubArrayLen(nums, sum) {
+    let total = 0;
+    let start = 0;
+    let end = 0;
+    let minLen = Infinity;
+
+    while (start < nums.length) {
+        // if current window doesn't add up to the given sum then 
+        // move the window to right
+        if (total < sum && end < nums.length) {
+            total += nums[end];
+            end++;
         }
-
-        if(tempSum < num){
-            tempArrLen++
-            continue
-        } 
-
-        if (tempSum >= num) {
-            left = right
-            minArrLen = Math.min(minArrLen, tempArrLen)
-            tempArrLen = 0
+        // if current window adds up to at least the sum given then
+        // we can shrink the window 
+        else if (total >= sum) {
+            minLen = Math.min(minLen, end - start);
+            total -= nums[start];
+            start++;
+        }
+        // current total less than required total but we reach the end, need this or else we'll be in an infinite loop 
+        else {
+            break;
         }
     }
 
-    console.log(minArrLen)
-    return
+    return minLen === Infinity ? 0 : minLen;
 }
 
 
-minSubArrayLen([2,3,1,2,4,3], 7) // 2 -> because [4,3] is the smallest subarray
+minSubArrayLen([2, 3, 1, 2, 4, 3], 7) // 2 -> because [4,3] is the smallest subarray
 // minSubArrayLen([2,1,6,5,4], 9) // 2 -> because [5,4] is the smallest subarray
 // minSubArrayLen([3,1,7,11,2,9,8,21,62,33,19], 52) // 1 -> because [62] is greater than 52
 // minSubArrayLen([1,4,16,22,5,7,8,9,10],39) // 3
