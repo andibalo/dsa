@@ -74,6 +74,67 @@ class SinglyLinkedList {
         return removedHead.val
     }
 
+    set(index, val) {
+      let node = this.get(index)
+
+      if(node){
+        node.val = val
+        return true
+      }
+
+      return false
+    }
+
+    insert(index, val){
+
+        if(index < 0 || index > this.length){
+            return false
+        }
+
+        if(index === 0){
+            this.unshift(val)
+            return true
+        }
+
+        if(index === this.length){
+            this.push(val)
+            return true
+        }
+
+        let prevNode = this.get(index - 1)
+        let node = prevNode.next
+        let newNode = new Node(val)
+
+        prevNode.next = newNode
+        newNode.next = node
+
+        this.length++
+        return true
+    }
+
+    remove(index){
+        if(index < 0 || index > this.length){
+            return false
+        }
+
+        if(index === 0){
+            this.shift(val)
+            return true
+        }
+
+        if(index === this.length){
+            this.pop(val)
+            return true
+        }
+
+        let prevNode = this.get(index - 1)
+        let removedNode = prevNode.next 
+
+        prevNode.next = removedNode.next
+        this.length--
+        return removedNode
+    }
+
     unshift(val) {
         let oldHead = this.head
 
@@ -127,4 +188,6 @@ class SinglyLinkedList {
 var list = new SinglyLinkedList()
 list.push("HELLO")
 list.push("WORLD")
+list.insert(1, "TEST")
+list.traverse()
 
