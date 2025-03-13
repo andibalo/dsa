@@ -4,7 +4,7 @@
 
 // You can return the answer in any order.
 
- 
+
 
 // Example 1:
 
@@ -19,7 +19,7 @@
 
 // Input: nums = [3,3], target = 6
 // Output: [0,1]
- 
+
 
 // Constraints:
 
@@ -27,13 +27,13 @@
 // -109 <= nums[i] <= 109
 // -109 <= target <= 109
 // Only one valid answer exists.
- 
+
 
 // Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity?
 
-var twoSum = function(nums, target) {
-        
-    
+var twoSum = function (nums, target) {
+
+
     const numToIndex = new Map(); // Create a Map to store numbers and their indices
 
     for (let i = 0; i < nums.length; i++) {
@@ -50,3 +50,32 @@ var twoSum = function(nums, target) {
 
     throw new Error("No solution found");
 };
+
+
+
+var twoSum2 = function (nums, target) {
+    const numToIndexMap = {}
+    let answer = []
+
+    nums.forEach((num, i) => {
+        
+        const complement = target - nums[i]
+
+        if(numToIndexMap[complement] || numToIndexMap[complement] === 0) {
+            answer.push(numToIndexMap[complement])
+            answer.push(i)
+            return
+        }
+
+        numToIndexMap[nums[i]] = i
+    });
+
+    return answer
+};
+
+
+console.log(twoSum2([2, 7, 11, 15], 9))
+
+console.log(twoSum2([3, 2 , 5, 1], 7))
+console.log(twoSum2([1, 2, 4, 6, 8, 9], 12)) 
+console.log(twoSum2([3,3], 6))

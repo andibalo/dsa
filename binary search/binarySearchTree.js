@@ -9,6 +9,7 @@ class Node {
 class BinarySearchTree {
     constructor() {
         this.root = null
+        this.values = []
     }
 
     find(val) {
@@ -75,15 +76,141 @@ class BinarySearchTree {
         }
 
     }
+
+    contains(value){
+        if(this.root === null) return false;
+        var current = this.root,
+            found = false;
+        while(current && !found){
+            if(value < current.value){
+                current = current.left;
+            } else if(value > current.value){
+                current = current.right;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    BFS(){
+        let node = this.root
+
+        let queue = []
+        let data = []
+
+        queue.push(node)
+
+        while(queue.length){
+            node = queue.shift()
+
+            data.push(node.value)
+            if (node.left) {
+                queue.push(node.left)
+            }
+
+            if (node.right) {
+                queue.push(node.right)
+            }
+        }
+
+        return data
+    }
+
+    DFSPreOrder(){
+        this.values = []
+
+        let current = this.root
+
+        this.traversePreOrder(current)
+
+        return this.values
+    }
+
+    traversePreOrder(node){
+        this.values.push(node.value)
+        
+        if (node.left) {
+            this.traversePreOrder(node.left)
+        }
+
+        if (node.right) {
+            this.traversePreOrder(node.right)
+        }
+
+        return
+    }
+
+    DFSPostOrder(){
+        this.values = []
+
+        let current = this.root
+
+        this.traversePostOrder(current)
+
+        return this.values
+    }
+
+    traversePostOrder(node){
+  
+        if (node.left) {
+            this.traversePostOrder(node.left)
+        }
+
+        if (node.right) {
+            this.traversePostOrder(node.right)
+        }
+
+        this.values.push(node.value)
+        
+
+        return
+    }
+
+    DFSInOrder(){
+        this.values = []
+
+        let current = this.root
+
+        this.traverseInOrder(current)
+
+        return this.values
+    }
+
+    traverseInOrder(node){
+  
+        if (node.left) {
+            this.traverseInOrder(node.left)
+        }
+
+        this.values.push(node.value)
+
+        if (node.right) {
+            this.traverseInOrder(node.right)
+        }
+        
+
+        return
+    }
 }
 
 let bst = new BinarySearchTree()
 
-bst.insert(10)
-bst.insert(5)
-bst.insert(2)
-bst.insert(4)
-bst.insert(13)
-bst.insert(16)
 
-console.log(bst.find(1))
+
+//      10 
+//    6    15
+//  3   8     20
+
+bst.insert(10)
+bst.insert(6)
+bst.insert(15)
+bst.insert(3)
+bst.insert(8)
+bst.insert(20)
+
+// console.log(bst.find(1))
+
+console.log(bst.DFSPreOrder())
+console.log(bst.DFSPostOrder())
+console.log(bst.DFSInOrder())
