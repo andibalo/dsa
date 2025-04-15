@@ -1,5 +1,5 @@
 // Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
-
+// https://leetcode.com/problems/top-k-frequent-elements/
 
 // Example 1:
 
@@ -18,8 +18,69 @@
 // k is in the range [1, the number of unique elements in the array].
 // It is guaranteed that the answer is unique.
 
-
 // Follow up: Your algorithm's time complexity must be better than O(n log n), where n is the array's size.
+
+// ----------------------------------------------------------------
+
+// SOLUTION 1: HashMap + 2D Array for grouping (like buckets) 
+
+// TIME COMPLEXITY = O(n + m + k) where n is num, m is numToFreqMap, k is top k elements because looping of valToFreqIndexArray stops at k
+// SPACE COMPLEXITY = O(n)
+// technically O(n + m + k), But since m ≤ n && k ≤ n, this simplifies to: O(n)
+// m = numToFreqMap , n = valToFreqIndexArray , k = topKFrquentArray 
+var topKFrequent = function(nums, k) {
+    const numToFreqMap = {}
+
+    // map number -> frequency
+    nums.forEach(num => {
+        if(numToFreqMap[num] !== undefined) {
+            numToFreqMap[num] += 1
+        } else {
+            numToFreqMap[num] = 1
+        }
+    })
+
+    let maxFreq = 0
+
+    // find max frequency to determine array size
+    for(let key in numToFreqMap) {
+        if(numToFreqMap[key] > maxFreq) {
+            maxFreq = numToFreqMap[key]
+        }
+    }
+
+    // create array to group numbers based on frequency (buckets sort-esque)
+    // array index = frequency
+    // fill with [] because possibility of a number to have same frequency, [] = bucket
+
+    // fill([]) creates multiple reference to the same array
+    // const valToFreqIndexArray = new Array(maxFreq + 1).fill([])
+
+    const valToFreqIndexArray = Array.from({length: maxFreq + 1}, () => []);
+
+    // insert number to correct index based on frequency
+    for(let key in numToFreqMap) {
+        valToFreqIndexArray[numToFreqMap[key]] = [parseInt(key), ...valToFreqIndexArray[numToFreqMap[key]] ]
+    }
+
+    const topKFrquentArray = []
+    let count = 0
+
+    // loop backwards from high to low frequency
+    for(let i = valToFreqIndexArray.length - 1; i >= 0; i-- ){
+        for(let j = 0; j < valToFreqIndexArray[i].length; j++) {
+            if(count === k){
+                break;
+            }
+
+            topKFrquentArray.push(valToFreqIndexArray[i][j])
+            count++
+        }
+    }
+
+    return topKFrquentArray
+};
+
 
 // var topKFrequent = function(nums, k) {
 //     const freqMap = new Map();
