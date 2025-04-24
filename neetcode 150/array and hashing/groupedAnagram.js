@@ -39,6 +39,7 @@ strs[i] consists of lowercase English letters.
  * @return {string[][]}
  */
 
+// SOLUTION
 // 1. Use array of size 26 to represent alpabet because input is (a-z). Use it to count the frequency of letters in each word. Use CHARCODE to map alphabet to index in the array.
 // 2. Use the frequency + letter calculated in step 1 as key to group the anagrams in a map
 
